@@ -1,0 +1,79 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Expense Tracker</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <div class="app">
+        <h1>My Expense Tracker ✦</h1>
+        <p>A little space to keep track of your spending.</p>
+
+        
+        {% if error %}
+            <p class="error">{{ error }}</p>
+        {% endif %}
+
+
+        {% if not expenses %}
+        <form method="POST" id="expense-form">
+
+            <label for="name">Your name</label>
+            <input
+                type="text"
+                id="name"
+                name="name"
+                placeholder="Enter your name"
+                required
+            >
+
+            <label for="numexpenses">How many expenses do you have?</label>
+            <input
+                type="number"
+                id="numexpenses"
+                name="numexpenses"
+                placeholder="e.g. 3"
+                min="1"
+                max="100"
+                required
+            >
+
+            <button type="button" id="create-fields">
+                Create Expense Fields ✨
+            </button>
+
+            <div id="expense-fields"></div>
+
+            <button type="submit" id="calculate-button" hidden>
+                Calculate My Expenses
+            </button>
+
+        </form>
+        {% endif %}
+
+        {% if expenses %}
+            <div class="summary">
+                <h2>Expense Summary</h2>
+                <p>Total spent: Rs {{ total }}</p>
+                <p>Average: Rs {{ average }}</p>
+                <p>Smallest expense: Rs {{ smallest }}</p>
+                <p>Largest expense: Rs {{ largest }}</p>
+            </div>
+
+            <h2>Your Expenses</h2>
+            <ul>
+                {% for amount in expenses %}
+                    <li>Expense {{ loop.index }}: Rs {{ amount }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
